@@ -202,14 +202,21 @@
 
   function renderHome() {
     const progress = getProgress();
-    let mockCumulative = 0;
-    let mockDone = 0;
-    MOCK_QUIZZES.forEach(m => {
-      const p = progress[m.id];
-      if (p) { mockCumulative += p.bestScore; mockDone += 1; }
-    });
+    const round1Mocks = MOCK_QUIZZES.filter(m => m.tier !== "round2");
+    const round2Mocks = MOCK_QUIZZES.filter(m => m.tier === "round2");
 
-    const mockTiles = MOCK_QUIZZES.map(m => {
+    function cumulativeFor(mockList) {
+      let sum = 0, done = 0;
+      mockList.forEach(m => {
+        const p = progress[m.id];
+        if (p) { sum += p.bestScore; done += 1; }
+      });
+      return { sum, done, max: mockList.length * 15 };
+    }
+    const r1 = cumulativeFor(round1Mocks);
+    const r2 = cumulativeFor(round2Mocks);
+
+    function tileFor(m) {
       const p = progress[m.id];
       const bestLine = p
         ? `Best: ${p.bestScore}/${p.total} · ${fmtTime(p.bestTimeSec)} · ${p.attempts} attempt${p.attempts > 1 ? "s" : ""}`
@@ -220,7 +227,9 @@
           <span class="tile-meta"><span class="badge timed">⏱ 8 min · 15 Qs</span></span>
           <span class="tile-best">${bestLine}</span>
         </button>`;
-    }).join("");
+    }
+    const mockTiles = round1Mocks.map(tileFor).join("");
+    const mockTilesR2 = round2Mocks.map(tileFor).join("");
 
     const chapterTiles = Object.keys(CHAPTER_INFO).map(num => {
       const info = CHAPTER_INFO[num];
@@ -240,23 +249,34 @@
       </header>
 
       <div class="notice">
-        <b>About the real quiz:</b> the WWGC classroom-level round is <b>4 quizzes of 15 MCQs each, 8 minutes per quiz, one attempt per quiz</b>, with scores adding up across all 4 for state-level qualification. These mock quizzes copy that exact format so you can rehearse under real time pressure — but you can retake them as often as you like here, since this is just practice, not the real thing. Never use this site (or any AI tool) during the actual competition quiz — only beforehand, to prepare.
+        <b>About the real quiz:</b> the WWGC classroom-level round is <b>4 quizzes of 15 MCQs each, 8 minutes per quiz, one attempt per quiz</b>, with scores adding up across all 4 for qualification. The <b>next stage is noticeably harder and more reasoning-based</b> — named conventions, ocean monitoring technology, and "compare two scenarios" questions — so a new <b>Round 2 Prep</b> section below drills exactly that style. You can retake anything here as often as you like, since this is just practice. Never use this site (or any AI tool) during the actual competition quiz — only beforehand, to prepare.
       </div>
 
       <div class="card cumulative">
         <div>
-          <div class="score-label">Your best cumulative mock score (${mockDone}/4 quizzes attempted)</div>
-          <div class="score-big">${mockCumulative} / 60</div>
+          <div class="score-label">Round 1 format — best cumulative score (${r1.done}/${round1Mocks.length} quizzes attempted)</div>
+          <div class="score-big">${r1.sum} / ${r1.max}</div>
         </div>
         <button class="secondary" id="resetProgressBtn">Reset my scores</button>
       </div>
 
-      <div class="section-title">🏁 Official-Format Mock Quizzes</div>
-      <p class="sub" style="margin-top:-4px;color:var(--ink-soft);font-size:0.88rem;">15 questions, 8-minute timer, mixed across all 6 chapters — just like the real thing.</p>
+      <div class="card cumulative">
+        <div>
+          <div class="score-label">Round 2 Advanced Prep — best cumulative score (${r2.done}/${round2Mocks.length} quizzes attempted)</div>
+          <div class="score-big">${r2.sum} / ${r2.max}</div>
+        </div>
+      </div>
+
+      <div class="section-title">🧠 Round 2 Advanced Prep — Harder, Reasoning-Based Mocks</div>
+      <p class="sub" style="margin-top:-4px;color:var(--ink-soft);font-size:0.88rem;">Same 15-question, 8-minute format, but matched to the tougher style of the next stage: conventions and treaties, ocean tech, and "compare two scenarios" reasoning questions. Full answer review after each one.</p>
+      <div class="grid">${mockTilesR2}</div>
+
+      <div class="section-title">🏁 Round 1 Official-Format Mock Quizzes</div>
+      <p class="sub" style="margin-top:-4px;color:var(--ink-soft);font-size:0.88rem;">15 questions, 8-minute timer, mixed across the first 6 chapters — the original classroom-level format.</p>
       <div class="grid">${mockTiles}</div>
 
       <div class="section-title">📖 Learn &amp; Practice by Chapter</div>
-      <p class="sub" style="margin-top:-4px;color:var(--ink-soft);font-size:0.88rem;">No timer. See the correct answer and a short explanation right after each question — great for first-time learning and revision.</p>
+      <p class="sub" style="margin-top:-4px;color:var(--ink-soft);font-size:0.88rem;">No timer. See the correct answer and a short explanation right after each question — great for first-time learning and revision. Chapters 7-9 are the new Round 2 topic areas.</p>
       <div class="grid">${chapterTiles}</div>
 
       <footer class="site-footer">Built from the official WWGC 2026 "Ocean Odyssey" learning material, for personal practice only.</footer>

@@ -2,15 +2,24 @@
    Official-format mock quizzes.
    Matches the real WWGC classroom-level format the student reported:
      4 quizzes | 15 MCQs each | 8 minutes per quiz | cumulative scoring
-   Each mock quiz draws a balanced mix of questions across all 6 chapters
-   (about 10 questions per chapter are used across the 4 mocks combined),
-   so no single quiz is skewed toward one chapter.
+   Each Round 1 mock quiz draws a balanced mix of questions across all 6
+   original chapters (about 10 questions per chapter used across the 4
+   mocks combined), so no single quiz is skewed toward one chapter.
+
+   ROUND 2 ADDITION: after the student advanced past Round 1, the real
+   Stage Assessment turned out to be far harder and more reasoning-based -
+   named conventions (OSPAR, Barcelona, BBNJ), ocean monitoring technology
+   (Argo floats, AIS, ROVs), specific species facts (kitefin shark,
+   leatherback papillae, totoaba swim bladder trade), and two-scenario
+   "which is more likely / which is correct and why" comparison questions.
+   Chapters 7-9 and mocks 5-7 were added specifically to drill that style.
    ========================================================================== */
 
 const MOCK_QUIZZES = [
   {
     id: "mock1",
     title: "Official-Format Mock Quiz 1",
+    tier: "round1",
     durationSec: 8 * 60,
     questionIds: [
       "c1-01","c1-02","c1-03",
@@ -24,6 +33,7 @@ const MOCK_QUIZZES = [
   {
     id: "mock2",
     title: "Official-Format Mock Quiz 2",
+    tier: "round1",
     durationSec: 8 * 60,
     questionIds: [
       "c1-04","c1-05",
@@ -37,6 +47,7 @@ const MOCK_QUIZZES = [
   {
     id: "mock3",
     title: "Official-Format Mock Quiz 3",
+    tier: "round1",
     durationSec: 8 * 60,
     questionIds: [
       "c1-06","c1-07","c1-08",
@@ -50,6 +61,7 @@ const MOCK_QUIZZES = [
   {
     id: "mock4",
     title: "Official-Format Mock Quiz 4",
+    tier: "round1",
     durationSec: 8 * 60,
     questionIds: [
       "c1-09","c1-10",
@@ -58,6 +70,40 @@ const MOCK_QUIZZES = [
       "c4-09","c4-10",
       "c5-08","c5-09","c5-10",
       "c6-09","c6-10"
+    ]
+  },
+
+  /* ---------------- ROUND 2 ADVANCED PREP (new) ---------------- */
+  {
+    id: "mock5",
+    title: "Round 2 Prep — Global Governance & Conventions",
+    tier: "round2",
+    durationSec: 8 * 60,
+    questionIds: [
+      "c7-01","c7-02","c7-03","c7-04","c7-05","c7-06","c7-07","c7-08",
+      "c9-01","c9-02","c9-03","c9-04",
+      "c1-27","c5-18","c6-20"
+    ]
+  },
+  {
+    id: "mock6",
+    title: "Round 2 Prep — Technology, Science & Species Facts",
+    tier: "round2",
+    durationSec: 8 * 60,
+    questionIds: [
+      "c8-01","c8-02","c8-03","c8-04","c8-05","c8-06","c8-07","c8-08",
+      "c9-05","c9-06","c9-07","c9-08",
+      "c2-23","c3-22","c4-22"
+    ]
+  },
+  {
+    id: "mock7",
+    title: "Round 2 Prep — Applied Reasoning & Case Studies",
+    tier: "round2",
+    durationSec: 8 * 60,
+    questionIds: [
+      "c9-09","c9-10","c9-11","c9-12","c9-13","c9-14","c9-15","c9-16","c9-17","c9-18","c9-19","c9-20",
+      "c5-19","c6-19","c6-25"
     ]
   }
 ];
@@ -68,7 +114,10 @@ const CHAPTER_INFO = {
   3: { name: "Life Functions Underwater",        tag: "Ch. 3" },
   4: { name: "Adaptations & Behaviour",           tag: "Ch. 4" },
   5: { name: "Challenges to Ocean Health",        tag: "Ch. 5" },
-  6: { name: "Human-Ocean Interactions & Conservation", tag: "Ch. 6" }
+  6: { name: "Human-Ocean Interactions & Conservation", tag: "Ch. 6" },
+  7: { name: "Global Ocean Governance & Conventions", tag: "Ch. 7" },
+  8: { name: "Ocean Monitoring Technology & Science", tag: "Ch. 8" },
+  9: { name: "Applied Reasoning & Case Studies", tag: "Ch. 9" }
 };
 
 if (typeof window !== "undefined") {
