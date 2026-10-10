@@ -105,6 +105,17 @@ const MOCK_QUIZZES = [
       "c9-09","c9-10","c9-11","c9-12","c9-13","c9-14","c9-15","c9-16","c9-17","c9-18","c9-19","c9-20",
       "c5-19","c6-19","c6-25"
     ]
+  },
+  {
+    id: "mock8",
+    title: "Round 2 Prep — Resource Gap Fill (New Topics)",
+    tier: "round2",
+    durationSec: 8 * 60,
+    questionIds: [
+      "c2-27","c2-28","c3-24","c3-25","c4-24","c4-25","c4-26",
+      "c5-24","c6-27","c6-28","c6-29","c6-30","c9-21","c9-22",
+      "c5-25"
+    ]
   }
 ];
 
